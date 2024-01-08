@@ -121,23 +121,51 @@ st.subheader('User Input Parameters')
 st.write(user_features)
 
 #loading dataset
-df = pd.read_csv('house_data.csv')
+
+@st.cache_data
+def load_dataset():
+    return pd.read_csv('house_data.csv')
+
+df = load_dataset()
 y=df['price']
 X=df.drop("price",axis=1)
 
 #splitting dataset
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
+@st.cache_data
+def split_dataset():
+    return train_test_split(X, y, test_size=0.2, random_state=0)
+
+X_train, X_test, y_train, y_test = split_dataset()
 
 
 #model Training
-rfregressor = RandomForestRegressor(n_estimators = 500,random_state = 0, n_jobs=4,max_depth=30,max_features='sqrt',min_samples_leaf=1,min_samples_split=10)
-rfregressor.fit(X_train,y_train)
+@st.cache_data
+def train_model():
+    rfregressor = RandomForestRegressor(n_estimators=500, random_state=0, n_jobs=4,
+                                        max_depth=30, max_features='sqrt', min_samples_leaf=1, min_samples_split=10)
+    rfregressor.fit(X_train, y_train)
+    return rfregressor
 
+model = train_model()
 
 #Prediction
-y_pred = rfregressor.predict(X_test)
 
-prediction = rfregressor.predict(user_features)
+@st.cache_data
+def make_prediction(features):
+    # Load the model inside the function to avoid UnhashableParamError
+    model = train_model()
+
+    # Extract feature names from the training data
+    feature_names = X.columns.tolist()
+
+    # Ensure the input features have the same order as the training data
+    features = features[feature_names]
+
+    return model.predict(features)
+
+y_pred = make_prediction(X_test)
+
+prediction = make_prediction(user_features)
 
 st.write('## Prediction')
 st.write(f'Predicted House Price: **${int(prediction[0]):,}**')
@@ -148,17 +176,16 @@ st.write(df.head(10))
 
 #Model Analysis
 
-# Calculate Mean Squared Error (MSE)
-mse = mean_squared_error(y_test, y_pred)
+def analyze_model(X_test, y_test, model):
+    model_params = (model.get_params(),)
+    y_pred = model.predict(X_test)
+    mse = mean_squared_error(y_test, y_pred)
+    rmse = np.sqrt(mse)
+    mae = mean_absolute_error(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
+    return mse, rmse, mae, r2
 
-# Calculate Root Mean Squared Error (RMSE)
-rmse = np.sqrt(mse)
-
-# Calculate Mean Absolute Error (MAE)
-mae = mean_absolute_error(y_test, y_pred)
-
-# Calculate R-squared (R2)
-r2 = r2_score(y_test, y_pred)
+mse, rmse, mae, r2 = analyze_model(X_test, y_test, model)
 
 # Display the mathematical result analysis
 st.subheader('Mathematical Result Analysis')

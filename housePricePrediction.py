@@ -121,7 +121,7 @@ st.subheader('User Input Parameters')
 st.write(user_features)
 
 #loading dataset
-df = pd.read_csv('Data\house_data.csv')
+df = pd.read_csv('house_data.csv')
 y=df['price']
 X=df.drop("price",axis=1)
 

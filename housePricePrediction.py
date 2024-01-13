@@ -20,61 +20,50 @@ It is using **Random Forest Regression** algorithm.
 st.sidebar.header('User Input Parameters')
 
 def user_input_features():
-    st.sidebar.write('Bedrooms')
-    bedrooms = st.sidebar.slider('',1,15,2,1,key=0)
+    bedrooms = st.sidebar.slider('Bedrooms',1,15,2,1,key=0)
 
-    st.sidebar.write('Bathrooms')
-    bathrooms = st.sidebar.slider('',1,12,2,1,key=1)
+    bathrooms = st.sidebar.slider('Bathrooms',1,12,2,1,key=1)
 
-    st.sidebar.write('Area of Living (Sqft)')
-    sqft_living = st.sidebar.slider('',300,10000,560,50,key=2)
+    sqft_living = st.sidebar.slider('Area of Living (Sqft)',300,10000,560,50,key=2)
 
-    st.sidebar.write('Area of Land (Sqft)')
-    sqft_land = st.sidebar.slider('',400,20000,700,100,key=3)
+    sqft_land = st.sidebar.slider('Area of Land (Sqft)',400,20000,700,100,key=3)
 
-    st.sidebar.write('Floors')
-    floors = st.sidebar.slider('',1,6,1,1,key=4)
+    floors = st.sidebar.slider('Floors',1,6,1,1,key=4)
 
-    st.sidebar.write("Waterfront")
+    st.sidebar.write("<p style='margin-bottom: 2px;'>Waterfront</p>", unsafe_allow_html=True)
     waterfront_input = st.sidebar.radio("Select Yes or No", ["Yes", "No"], index=1)
     waterfront = 1 if waterfront_input == 'Yes' else 0
 
-    st.sidebar.write("View")
+    st.sidebar.write("<p style='margin-bottom: 2px;'>View</p>", unsafe_allow_html=True)
     view_input = st.sidebar.radio("Select Yes or No", ["Yes", "No"], index=1, key='Yes')
     view = 1 if view_input == 'Yes' else 0
 
-    st.sidebar.write("Condition")
-    st.sidebar.write("1: Poor")
-    st.sidebar.write("2: Fair")
-    st.sidebar.write("3: Average")
-    st.sidebar.write("4: Good")
-    st.sidebar.write("5: Excellent")
-    condition = st.sidebar.slider('',1,5,3,1,key=5)
+    st.sidebar.write("<p style='margin-bottom: 2px;'>Condition</p>", unsafe_allow_html=True)
+    st.sidebar.write("<p style='margin-bottom: 2px;'>1: Poor</p>", unsafe_allow_html=True)
+    st.sidebar.write("<p style='margin-bottom: 2px;'>2: Fair</p>", unsafe_allow_html=True)
+    st.sidebar.write("<p style='margin-bottom: 2px;'>3: Average</p>", unsafe_allow_html=True)
+    st.sidebar.write("<p style='margin-bottom: 2px;'>4: Good</p>", unsafe_allow_html=True)
+    st.sidebar.write("<p style='margin-bottom: 2px;'>5: Excellent</p>", unsafe_allow_html=True)
+    condition = st.sidebar.slider('Select from above',1,5,3,1,key=5)
 
-    st.sidebar.write("Grades")
-    st.sidebar.write("(1-3): Poor Construction")
-    st.sidebar.write("(4-7): Standard Construction")
-    st.sidebar.write("(8-9): Good to Very Good Quality")
-    st.sidebar.write("(10-12): High Quality with Luxury Features")
-    grade = st.sidebar.slider('',1,12,6,1,key=6)
+    st.sidebar.write("<p style='margin-bottom: 2px;'>Grades</p>", unsafe_allow_html=True)
+    st.sidebar.write("<p style='margin-bottom: 2px;'>(1-3): Poor Construction</p>", unsafe_allow_html=True)
+    st.sidebar.write("<p style='margin-bottom: 2px;'>(4-7): Standard Construction</p>", unsafe_allow_html=True)
+    st.sidebar.write("<p style='margin-bottom: 2px;'>(8-9): Good to Very Good Quality</p>", unsafe_allow_html=True)
+    st.sidebar.write("<p style='margin-bottom: 2px;'>(10-12): High Quality with Luxury Features</p>", unsafe_allow_html=True)
+    grade = st.sidebar.slider('Select from above',1,12,6,1,key=6)
 
-    st.sidebar.write("Sqft Above")
-    sqft_above = st.sidebar.slider('', 300, 10000, 560, 50,key=7)
+    sqft_above = st.sidebar.slider('Sqft Above', 300, 10000, 560, 50,key=7)
 
-    st.sidebar.write("Sqft Basement")
-    sqft_basement = st.sidebar.slider('', 0, 5000, 0, 50,key=8)
+    sqft_basement = st.sidebar.slider('Sqft Basement', 0, 5000, 0, 50,key=8)
 
-    st.sidebar.write("Year Built")
-    yr_built = st.sidebar.slider('', 1900, 2022, 1970, 1,key=9)
+    yr_built = st.sidebar.slider('Year Built', 1900, 2022, 1970, 1,key=9)
 
-    st.sidebar.write("Year Renovated")
-    yr_renovated = st.sidebar.slider('', 1900, 2022, 1970, 1, key=10)
+    yr_renovated = st.sidebar.slider('Year Renovated', 1900, 2022, 1970, 1, key=10)
 
-    st.sidebar.write("Average interior square footage of the 15 nearest neighbors' living spaces.")
-    sqft_living15 = st.sidebar.slider('', 300, 10000, 560, 50, key=11)
+    sqft_living15 = st.sidebar.slider("Average interior square footage of the 15 nearest neighbors' living spaces", 300, 10000, 560, 50, key=11)
     
-    st.sidebar.write("The average square footage of the land lots of the 15 nearest neighbors.")
-    sqft_lot15 = st.sidebar.slider('', 400, 20000, 700, 100, key=12)
+    sqft_lot15 = st.sidebar.slider('The average square footage of the land lots of the 15 nearest neighbors', 400, 20000, 700, 100, key=12)
 
     zipcode_options = ['98002', '98003', '98004', '98005', '98006', '98007', '98008', '98010', '98011', '98014',
                        '98019', '98022', '98023', '98024', '98027', '98028', '98029', '98030', '98031', '98032',
@@ -84,8 +73,7 @@ def user_input_features():
                        '98117', '98118', '98119', '98122', '98125', '98126', '98133', '98136', '98144', '98146',
                        '98148', '98155', '98166', '98168', '98177', '98178', '98188', '98198', '98199']
 
-    st.sidebar.write("Zipcode")
-    selected_zipcode = st.sidebar.selectbox('', zipcode_options)
+    selected_zipcode = st.sidebar.selectbox('Zipcode', zipcode_options)
 
     data = {
         'bedrooms': bedrooms,
